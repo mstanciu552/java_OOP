@@ -1,0 +1,4 @@
+[
+  Student{nume: yytj, prenume: tjjt, prezenta: 211}, 
+  Student{nume: yytj, prenume: tjjt, prezenta: 211}, 
+]

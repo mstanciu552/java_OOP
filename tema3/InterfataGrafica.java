@@ -10,6 +10,11 @@ import tema3.poo.util.ExceptieListaPlina;
 import tema3.poo.util.ListaDeComparable;
 
 public class InterfataGrafica extends JFrame {
+    private JLabel lNume = new JLabel("Nume: ");
+    private JLabel lPrenume = new JLabel("Prenume: ");
+    private JLabel lPrezenta = new JLabel("Prezenta: ");
+    private JLabel lCurent = new JLabel("Curent: ");
+
     private JTextField textFieldNume = new JTextField("", 10);
     private JTextField textFieldPrenume = new JTextField("", 10);
     private JTextField textFieldPrezenta = new JTextField("", 10);
@@ -19,7 +24,7 @@ public class InterfataGrafica extends JFrame {
     private JButton bSortareElemente = new JButton("Sortare Elemente");
     private JButton bSalvareLista = new JButton("Salvare");
 
-    private JLabel lElemente = new JLabel("Elemente lista: ");
+    private JTextArea lElemente = new JTextArea("");
     private JLabel lErori = new JLabel("");
 
     private ListaDeComparable<Student> elemente;
@@ -59,7 +64,7 @@ public class InterfataGrafica extends JFrame {
                 }
             } else if (id.equals("Salvare")) {
                 try {
-                    elemente.salvareLista("Studenti.txt");
+                    elemente.salvareLista("tema3/Studenti.txt");
                 } catch (ExceptieListaGoala ex) {
                     lErori.setText("ExceptieListaGoala");
                 }
@@ -73,84 +78,83 @@ public class InterfataGrafica extends JFrame {
     public InterfataGrafica() {
         elemente = new ListaDeComparable<>(6, Student.class);
         lElemente.setText(lElemente.getText() + elemente.toString());
+        lErori.setForeground(Color.red);
 
         bAdaugareElement.addActionListener(aeb);
         bStergereElemente.addActionListener(aeb);
         bSortareElemente.addActionListener(aeb);
         bSalvareLista.addActionListener(aeb);
 
+        Box labels = Box.createVerticalBox();
+        labels.add(lNume);
+        labels.add(Box.createVerticalStrut(100));
+        labels.add(lPrenume);
+        labels.add(Box.createVerticalStrut(100));
+        labels.add(lPrezenta);
+        labels.add(Box.createVerticalStrut(100));
+        labels.add(Box.createVerticalGlue());
+
+        Box textBoxes = Box.createVerticalBox();
+        textBoxes.add(textFieldNume);
+        textBoxes.add(Box.createVerticalStrut(10));
+        textBoxes.add(textFieldPrenume);
+        textBoxes.add(Box.createVerticalStrut(10));
+        textBoxes.add(textFieldPrezenta);
+        textBoxes.add(Box.createVerticalStrut(10));
+        textBoxes.add(Box.createVerticalGlue());
+
+        Box buttons1 = Box.createVerticalBox();
+        buttons1.add(bAdaugareElement);
+        buttons1.add(Box.createVerticalStrut(10));
+        buttons1.add(bStergereElemente);
+        buttons1.add(Box.createVerticalStrut(10));
+        buttons1.add(bSortareElemente);
+        buttons1.add(Box.createVerticalStrut(10));
+        buttons1.add(Box.createVerticalGlue());
+
+        Box firstRow = Box.createHorizontalBox();
+        firstRow.add(labels);
+        firstRow.add(Box.createHorizontalStrut(10));
+        firstRow.add(textBoxes);
+        firstRow.add(Box.createHorizontalStrut(10));
+        firstRow.add(buttons1);
+        firstRow.add(Box.createHorizontalStrut(10));
+        firstRow.add(Box.createHorizontalGlue());
+
+        Box secondRow = Box.createHorizontalBox();
+        secondRow.add(lCurent);
+        secondRow.add(Box.createHorizontalStrut(10));
+        secondRow.add(lElemente);
+        secondRow.add(Box.createHorizontalStrut(10));
+        secondRow.add(Box.createHorizontalGlue());
+
+        Box thirdRow = Box.createHorizontalBox();
+        thirdRow.add(Box.createHorizontalStrut(10));
+        thirdRow.add(bSalvareLista);
+        thirdRow.add(Box.createHorizontalStrut(10));
+        thirdRow.add(lErori);
+        thirdRow.add(Box.createHorizontalStrut(10));
+        thirdRow.add(Box.createHorizontalGlue());
+
+        Box mainBox = Box.createVerticalBox();
+        mainBox.add(firstRow);
+        buttons1.add(Box.createVerticalStrut(10));
+        mainBox.add(secondRow);
+        buttons1.add(Box.createVerticalStrut(10));
+        mainBox.add(thirdRow);
+        buttons1.add(Box.createVerticalStrut(10));
+        buttons1.add(Box.createVerticalGlue());
+
+        Container cp = getContentPane();
+        cp.add(BorderLayout.CENTER, mainBox);
+    }
+
+    public static void main(String[] args) {
+        InterfataGrafica gui = new InterfataGrafica();
+
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gui.setSize(500, 500);
+
+        gui.setVisible(true);
     }
 }
-
-// import javax.swing.*;
-// import java.awt.*;
-
-// public class InterfataGrafica extends JFrame {
-//     private JPanel panelPrincipal;
-//     private JButton adaugareButton;
-//     private JButton eliminareButton;
-//     private JButton afisareButton;
-//     private JButton sortareButton;
-//     private JTextField numeField;
-//     private JTextField prenumeField;
-//     private JTextField prezentaField;
-//     private JTextArea listaTextArea;
-
-//     public InterfataGrafica() {
-//         setContentPane(panelPrincipal);
-//         setPreferredSize(new Dimension(500, 500));
-//         pack();
-//         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//         setVisible(true);
-
-//         adaugareButton.addActionListener(e -> adaugare());
-//         eliminareButton.addActionListener(e -> eliminare());
-//         afisareButton.addActionListener(e -> afisare());
-//         sortareButton.addActionListener(e -> sortare());
-//     }
-
-//     private void adaugare() {
-//         String nume = numeField.getText();
-//         String prenume = prenumeField.getText();
-//         int prezenta = Integer.parseInt(prezentaField.getText());
-
-//         Student student = new Student();
-//         student.setNume(nume);
-//         student.setPrenume(prenume);
-//         student.setPrezenta(prezenta);
-
-//         try {
-//             ListaDeComparable.adaugareElement(student);
-//         } catch (ExceptieListaPlina exceptieListaPlina) {
-//             JOptionPane.showMessageDialog(this, exceptieListaPlina.getMessage());
-//         }
-//     }
-
-//     private void eliminare() {
-//         try {
-//             Student student = ListaDeComparable.eliminareElement();
-//             numeField.setText(student.getNume());
-//             prenumeField.setText(student.getPrenume());
-//             prezentaField.setText(Integer.toString(student.getPrezenta()));
-//         } catch (ExceptieListaGoala exceptieListaGoala) {
-//             JOptionPane.showMessageDialog(this, exceptieListaGoala.getMessage());
-//         }
-//     }
-
-//     private void afisare() {
-//         StringBuilder stringBuilder = new StringBuilder();
-//         for (Student student : ListaDeComparable.getLista()) {
-//             stringBuilder.append(student.getNume())
-//                     .append(" ")
-//                     .append(student.getPrenume())
-//                     .append(" ")
-//                     .append(student.getPrezenta())
-//                     .append("\n");
-//         }
-//         listaTextArea.setText(stringBuilder.toString());
-//     }
-
-//     private void sortare() {
-//         ListaDeComparable.sortareElemente();
-//     }
-// }

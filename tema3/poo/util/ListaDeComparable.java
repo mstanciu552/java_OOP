@@ -28,9 +28,10 @@ public class ListaDeComparable<T extends Comparable> {
         String res = "[\n";
 
         for (T el : elemente)
-            res += el.toString() + ",\n";
+            if (el != null)
+                res += "  " + el.toString() + ", \n";
 
-        return res + "\n]";
+        return res + "]";
     }
 
     public void adaugareElement(T t) throws ExceptieListaPlina {
@@ -51,7 +52,6 @@ public class ListaDeComparable<T extends Comparable> {
         return res;
     }
 
-    // TODO Check
     public void sortareElemente() throws ExceptieListaGoala {
         if (curent == 0)
             throw new ExceptieListaGoala("Lista este goala");
